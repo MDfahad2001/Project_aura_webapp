@@ -53,6 +53,16 @@
       font-size: 14px;
       color: gray;
     }
+    .link {
+      text-align: center;
+      margin-top: 10px;
+      font-size: 14px;
+      color: #007bff;
+      cursor: pointer;
+    }
+    .link:hover {
+      text-decoration: underline;
+    }
 
     footer{
       color: black;
