@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Project AURA</title>
+  <link rel="stylesheet" href="CSS/Styles.css">
+</head>
+<body>
+  <div class="container">
+
+    <div class="card">
+      <h1>Welcome to Project AURA</h1>
+      <p>Monitor and control your lighting zones.</p>
+    </div>
+
+    <div class="card">
+      <h2>Lighting Control</h2>
+      <label class="slider-label">Brightness: <span id="brightnessValue">75</span>%</label>
+      <input type="range" min="0" max="100" value="75" class="slider" id="brightness" />
+
+      <label class="slider-label">Color Temperature: <span id="tempValue">4000</span>K</label>
+      <input type="range" min="2000" max="6500" step="100" value="4000" class="slider" id="colorTemp" />
+
+      <div class="slider-label">
+        <label for="autoMode">Auto Mode:</label>
+        <input type="checkbox" id="autoMode" checked />
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Quick Actions</h2>
+      <button class="button">Activate SAD Mode</button>
+      <button class="button">Choose Profile</button>
+    </div>
+
+    <div class="card">
+      <h2>Lighting Profiles</h2>
+      <ul>
+        <li>Morning Bright <button class="button">Apply</button></li>
+        <li>SAD Therapy <button class="button">Apply</button></li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h2>User Settings</h2>
+      <input type="text" class="input-field" placeholder="Change Username" />
+      <input type="password" class="input-field" placeholder="Change Password" />
+      <button class="button">Save Changes</button>
+    </div>
+
+  </div>
+
+  <script>
+    const brightnessSlider = document.getElementById('brightness');
+    const colorTempSlider = document.getElementById('colorTemp');
+    const brightnessValue = document.getElementById('brightnessValue');
+    const tempValue = document.getElementById('tempValue');
+
+    brightnessSlider.addEventListener('input', () => {
+      brightnessValue.textContent = brightnessSlider.value;
+    });
+
+    colorTempSlider.addEventListener('input', () => {
+      tempValue.textContent = colorTempSlider.value;
+    });
+  </script>
+</body>
+</html>
