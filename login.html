@@ -5,16 +5,17 @@
   <link rel="stylesheet" href="CSS/Styles.css">
 </head>
 <body>
-  <div class="login-box">
-    <h2>Login</h2>
-    <form onsubmit="login(event)">
-      <input type="text" id="username" placeholder="Username" required />
-      <input type="password" id="password" placeholder="Password" required />
-      <button type="submit">Login</button>
-    </form>
-    <div class="link" >Forgot Password?</div>
-    <div class="link" >Don't have an account? Register</div>
-    <div class="note">Use your registered credentials</div>
+  <div class="login-container">
+    <img src="Images/Aura logo.png" alt="AURA Logo" class="logo" />
+    <div class="login-box">
+      <h2>Login</h2>
+      <form onsubmit="login(event)">
+        <input type="text" id="username" placeholder="Username" required />
+        <input type="password" id="password" placeholder="Password" required />
+        <button type="submit">Login</button>
+      </form>
+      <div class="note">Use your registered credentials</div>
+    </div>
   </div>
   <script src="scripts/app.js"></script>
 </body>
