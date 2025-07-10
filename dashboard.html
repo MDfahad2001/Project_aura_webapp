@@ -1,12 +1,47 @@
 <!DOCTYPE html>
 <html>
     <head>
-        
+        <title>Project AURA Dashboard</title>
+        <link rel="stylesheet" href="CSS/dashboardStyles.css">
     </head>
     <body>
+        <h1>Sensor Dashboard - Project AURA</h1>
+        <div class="sensor-grid">
+        <div class="sensor-card">
+        <label for="r">Red (R)</label>
+        <input type="number" id="r" />
+        </div>
+        <div class="sensor-card">
+        <label for="g">Green (G)</label>
+        <input type="number" id="g" />
+        </div>
+        <div class="sensor-card">
+        <label for="b">Blue (B)</label>
+        <input type="number" id="b" />
+        </div>
+        <div class="sensor-card">
+        <label for="w">White (W)</label>
+        <input type="number" id="w" />
+        </div>
+        <div class="sensor-card">
+        <label for="lux">Illuminance (LUX)</label>
+        <input type="number" id="lux" />
+        </div>
+        <div class="sensor-card">
+        <label for="cct">Color Temp (CCT)</label>
+        <input type="number" id="cct" />
+        </div>
+        </div>
+
+        <div style="text-align:center;">
+        <button class="save-btn" onclick="saveChanges()">Save Changes</button>
+        </div>
         
     </body>
     <footer>
         &copy; Project AURA 2025
     </footer>
 </html>
+  
+
+
