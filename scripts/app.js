@@ -1,11 +1,18 @@
-function login(event) {
-  event.preventDefault();
-  const user = document.getElementById('username').value;
-  const pass = document.getElementById('password').value;
 
-  if (user === 'admin' && pass === 'password') {
-    window.location.href = 'dashboard.html';
-  } else {
-    alert('Invalid credentials');
-  }
-}
+
+const app = Vue.createApp({
+    /// Define the data for the app
+    data() {
+        return {
+            Red : 65,
+            Green :0,
+            Blue :0,
+            White:0,
+            Lux :0,
+            ColourTemp :0,
+
+        };
+    }
+});
+
+app.mount('#app');
