@@ -1,51 +1,48 @@
+
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>Project AURA Dashboard</title>
-        <link rel="stylesheet" href="CSS/dashboardStyles.css">
-    </head>
-    <body>
-        <h1>Sensor Dashboard - Project AURA</h1>
-        <div class="sensor-grid">
-        <div class="sensor-card">
-            <p class="colour">Red</p>
-            <input type="number" v-model="Red" min="0" max="100">
-            <input type="range" v-model="Red" min="0" max="100">
-        </div>
-        <div class="sensor-card">
-            <p class="colour">Green</p>
-            <input type="number" v-model="Green" min="0" max="100">
-            <input type="range" v-model="Green" min="0" max="100">
-        </div>
-        <div class="sensor-card">
-            <p class="colour">Blue</p>
-            <input type="number" v-model="Blue" min="0" max="100">
-            <input type="range" v-model="Blue" min="0" max="100">
-        </div>
-        <div class="sensor-card">
-        <label for="w">White (W)</label>
-        <input type="number" id="w" >
-        </div>
-        <div class="sensor-card">
-        <label for="lux">Illuminance (LUX)</label>
-        <input type="number" id="lux" >
-        </div>
-        <div class="sensor-card">
-        <label for="cct">Color Temp (CCT)</label>
-        <input type="number" id="cct" >
-        </div>
-        </div>
+<head>
+  <title>Project AURA Dashboard</title>
+  <link rel="stylesheet" href="CSS/dashboardStyles.css">
+</head>
+<body>
+  <h1>Sensor Dashboard - Project AURA</h1>
 
-        <div style="text-align:center;">
-        <button class="save-btn">Save Changes</button>
-        </div>
-        <footer>
-        &copy; Project AURA 2025
-        </footer>
-        <script src="https://unpkg.com/vue@3.4.31/dist/vue.global.js"></script>
-        <script src="scripts/app.js"></script> 
-    </body>
+  <div class="sensor-grid">
+    <div class="sensor-card">
+      <p>Red:</p>
+      <input type="range" id="r" min="0" max="255" value="128" oninput="updateValue('r')">
+    </div>
+    <div class="sensor-card">
+      <p>Green:</p>
+      <input type="range" id="g" min="0" max="255" value="128" oninput="updateValue('g')">
+    </div>
+    <div class="sensor-card">
+      <p>Blue:</p>
+      <input type="range" id="b" min="0" max="255" value="128" oninput="updateValue('b')">
+    </div>
+    <div class="sensor-card">
+      <p>White:</p>
+      <input type="range" id="w" min="0" max="255" value="255" oninput="updateValue('w')">
+    </div>
+    <div class="sensor-card">
+      <p>Lux:</p>
+      <input type="range" id="lux" min="0" max="1000" value="650" oninput="updateValue('lux')">
+    </div>
+    <div class="sensor-card">
+      <p>CCT:</p>
+      <input type="range" id="cct" min="2000" max="7000" value="4500" oninput="updateValue('cct')">
+    </div>
+  </div>
+
+  <div style="text-align:center;">
+    <button class="save-btn" onclick="saveChanges()">Save Changes</button>
+  </div>
+
+  <footer>
+    &copy; Project AURA 2025
+  </footer>
+
+  <script src="scripts/dashboardScript.js"></script>
+</body>
 </html>
-  
-
-
