@@ -1,5 +1,5 @@
-const API_KEY = '$2a$10$wkq6duJgxGCzRhwU7UsbHeq21NTSjKl/wx8t.j67pRjnFLNzE1hr.'; // Replace this with your real key
-const BIN_ID = '6890e3b1ae596e708fc1785a';           // Replace with your created bin ID
+const API_KEY = '$2a$10$wkq6duJgxGCzRhwU7UsbHeq21NTSjKl/wx8t.j67pRjnFLNzE1hr.';
+const BIN_ID = '6890ef3bae596e708fc1800d';
 
 function updateValue() {
   const values = {
@@ -20,13 +20,16 @@ function updateValue() {
     },
     body: JSON.stringify(values)
   })
-  .then(res => res.json())
+  .then(res => {
+    if (!res.ok) throw new Error('Upload failed');
+    return res.json();
+  })
   .then(data => {
     console.log("Uploaded to JSONBin:", data);
-    alert("Saved to cloud and downloaded locally!");
+    alert("Saved to cloud!");
   })
   .catch(err => {
     console.error("Cloud upload failed:", err);
-    alert("Saved locally, but cloud upload failed.");
+    alert("Upload failed. Please check CORS or API key.");
   });
 }
