@@ -1,5 +1,5 @@
-const API_KEY = '$2a$10$wkq6duJgxGCzRhwU7UsbHeq21NTSjKl/wx8t.j67pRjnFLNzE1hr.';
-const BIN_ID = '6890ef3bae596e708fc1800d';
+const API_KEY = '$2a$10$oiOZ2p1JqErlZWeIJmDn1uhv/alUfND8CQK2e4m5/e7GIXsC2Em7y';
+const BIN_ID = '6890ef3bae596e708fc1800d'; // use after you create the bin
 
 function updateValue() {
   const values = {
@@ -8,8 +8,7 @@ function updateValue() {
     b: document.getElementById('b').value,
     w: document.getElementById('w').value,
     lux: document.getElementById('lux').value,
-    cct: document.getElementById('cct').value,
-    user_id: localStorage.getItem("userId")
+    cct: document.getElementById('cct').value
   };
 
   fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}`, {
@@ -20,16 +19,7 @@ function updateValue() {
     },
     body: JSON.stringify(values)
   })
-  .then(res => {
-    if (!res.ok) throw new Error('Upload failed');
-    return res.json();
-  })
-  .then(data => {
-    console.log("Uploaded to JSONBin:", data);
-    alert("Saved to cloud!");
-  })
-  .catch(err => {
-    console.error("Cloud upload failed:", err);
-    alert("Upload failed. Please check CORS or API key.");
-  });
+  .then(res => res.json())
+  .then(data => alert('Saved to cloud!'))
+  .catch(err => console.error('Save failed', err));
 }
