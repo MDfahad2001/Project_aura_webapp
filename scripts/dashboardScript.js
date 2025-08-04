@@ -1,4 +1,7 @@
-function saveChanges() {
+const API_KEY = '$2a$10$wkq6duJgxGCzRhwU7UsbHeq21NTSjKl/wx8t.j67pRjnFLNzE1hr.'; // Replace this with your real key
+const BIN_ID = '6890e3b1ae596e708fc1785a';           // Replace with your created bin ID
+
+function updateValue() {
   const values = {
     r: document.getElementById('r').value,
     g: document.getElementById('g').value,
@@ -6,19 +9,24 @@ function saveChanges() {
     w: document.getElementById('w').value,
     lux: document.getElementById('lux').value,
     cct: document.getElementById('cct').value,
-    user_id: localStorage.getItem("userId"),
+    user_id: localStorage.getItem("userId")
   };
 
-  const jsonData = JSON.stringify(values, null, 2); // formatted JSON
-  const blob = new Blob([jsonData], { type: 'application/json' });
-  const url = URL.createObjectURL(blob);
-
-  const link = document.createElement('a');
-  link.href = url;
-  link.download = 'aura_values.json';
-  document.body.appendChild(link);
-  link.click();
-  document.body.removeChild(link);
-
-  URL.revokeObjectURL(url); // Clean up memory
+  fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+      'X-Master-Key': API_KEY
+    },
+    body: JSON.stringify(values)
+  })
+  .then(res => res.json())
+  .then(data => {
+    console.log("Uploaded to JSONBin:", data);
+    alert("Saved to cloud and downloaded locally!");
+  })
+  .catch(err => {
+    console.error("Cloud upload failed:", err);
+    alert("Saved locally, but cloud upload failed.");
+  });
 }

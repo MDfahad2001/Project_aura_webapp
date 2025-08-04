@@ -1,4 +1,6 @@
-id,username,password
-1,admin,password
-2,mohammed,1234
-9481,lester,9988
+id,username,password,bin_id
+1,admin,password,0
+2,mohammed,998,6890ef3bae596e708fc1800d
+9481,haris,145,6890ef2d7b4b8670d8ad182f
+3,goutham,060,6890ef117b4b8670d8ad181b
+4,pavan,264,6890e3b1ae596e708fc1785a
