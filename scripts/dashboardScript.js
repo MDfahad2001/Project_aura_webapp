@@ -5,7 +5,8 @@ function saveChanges() {
     b: document.getElementById('b').value,
     w: document.getElementById('w').value,
     lux: document.getElementById('lux').value,
-    cct: document.getElementById('cct').value
+    cct: document.getElementById('cct').value,
+    user_id: localStorage.getItem("userId"),
   };
 
   const jsonData = JSON.stringify(values, null, 2); // formatted JSON

@@ -12,8 +12,8 @@ def validate_user(username, password):
         reader = csv.DictReader(csvfile)
         for row in reader:
             if row['username'] == username and row['password'] == password:
-                return True
-    return False
+                return row  # return full user record
+    return None
 
 @app.route('/api/login', methods=['POST'])
 def login():
@@ -21,11 +21,19 @@ def login():
     username = data.get('username')
     password = data.get('password')
 
-    if validate_user(username, password):
-        session['user'] = username
-        return jsonify({'message': 'Login successful'}), 200
+    user = validate_user(username, password)
+
+    if user:
+        session['user'] = user['username']
+        session['user_id'] = user['id']
+        return jsonify({
+            'message': 'Login successful',
+            'id': user['id'],
+            'username': user['username']
+        }), 200
     else:
         return jsonify({'error': 'Invalid username or password'}), 401
+
 
 @app.route('/api/check-auth')
 def check_auth():

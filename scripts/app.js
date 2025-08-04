@@ -10,13 +10,13 @@ function login(event) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ username, password })
       })
-      .then(res => {
-        if (res.ok) {
+      .then(res => res.json())
+      .then(data => {
+        if (data.message) {
+          localStorage.setItem("userId", data.id);
           window.location.href = 'dashboard.html';
         } else {
-          return res.json().then(data => {
-            errorBox.textContent = data.error || 'Login failed';
-          });
+          alert('Login failed');
         }
       })
       .catch(() => {
