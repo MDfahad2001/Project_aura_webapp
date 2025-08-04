@@ -1,16 +1,23 @@
-const API_KEY = '$2a$10$oiOZ2p1JqErlZWeIJmDn1uhv/alUfND8CQK2e4m5/e7GIXsC2Em7y';
-const BIN_ID = '6890ef3bae596e708fc1800d'; // use after you create the bin
+const API_KEY = '$2a$10$oiOZ2p1JqErlZWeIJmDn1uhv/alUfND8CQK2e4m5/e7GIXsC2Em7y'; // Replace this with your actual key
+const BIN_ID = localStorage.getItem("binId");
+if (!BIN_ID) {
+  alert("Missing bin ID. Please log in again.");
+  throw new Error("Missing BIN_ID");
+}
 
-function updateValue() {
+function saveChanges() {
   const values = {
     r: document.getElementById('r').value,
     g: document.getElementById('g').value,
     b: document.getElementById('b').value,
     w: document.getElementById('w').value,
     lux: document.getElementById('lux').value,
-    cct: document.getElementById('cct').value
+    cct: document.getElementById('cct').value,
+    user_id: localStorage.getItem("userId")
   };
 
+
+  // 2. Upload to JSONBin.io using PUT (corrected)
   fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}`, {
     method: 'PUT',
     headers: {
@@ -19,7 +26,16 @@ function updateValue() {
     },
     body: JSON.stringify(values)
   })
-  .then(res => res.json())
-  .then(data => alert('Saved to cloud!'))
-  .catch(err => console.error('Save failed', err));
+  .then(res => {
+    if (!res.ok) throw new Error('Cloud upload failed');
+    return res.json();
+  })
+  .then(data => {
+    console.log("Uploaded to JSONBin:", data);
+    alert("Saved to cloud");
+  })
+  .catch(err => {
+    console.error(err);
+    alert("cloud upload failed.");
+  });
 }
