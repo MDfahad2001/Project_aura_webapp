@@ -18,7 +18,7 @@ function login(event) {
         localStorage.setItem("username", data.username);
         localStorage.setItem("binId", data.bin_id);
 
-        window.location.href = 'dashboard.html';
+        window.location.href = 'options.html';
       });
     } else {
       return res.json().then(data => {

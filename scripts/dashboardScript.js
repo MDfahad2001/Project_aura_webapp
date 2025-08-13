@@ -16,6 +16,18 @@ function saveChanges() {
     user_id: localStorage.getItem("userId")
   };
 
+    // 1. Download locally
+  const jsonData = JSON.stringify(values, null, 2);
+  const blob = new Blob([jsonData], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = 'aura_values.json';
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+  URL.revokeObjectURL(url);
 
   // 2. Upload to JSONBin.io using PUT (corrected)
   fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}`, {
