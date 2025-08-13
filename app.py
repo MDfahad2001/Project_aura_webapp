@@ -6,7 +6,7 @@ app = Flask(__name__)
 app.secret_key = 'aura_secret'
 CORS(app, supports_credentials=True)
 
-# ✅ Return full user record instead of just True
+# Return full user record instead of just True
 def validate_user(username, password):
     with open('users.csv', newline='') as csvfile:
         reader = csv.DictReader(csvfile)
@@ -27,7 +27,7 @@ def login():
         session['user'] = user['username']
         session['user_id'] = user['id']
 
-        # ✅ Include ID, username, bin_id in response
+        # Include ID, username, bin_id in response
         return jsonify({
             'message': 'Login successful',
             'id': user['id'],

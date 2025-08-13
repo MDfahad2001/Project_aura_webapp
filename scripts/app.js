@@ -13,7 +13,7 @@ function login(event) {
   .then(res => {
     if (res.ok) {
       return res.json().then(data => {
-        // ✅ Save user info locally
+        //Save user info locally
         localStorage.setItem("userId", data.id);
         localStorage.setItem("username", data.username);
         localStorage.setItem("binId", data.bin_id);

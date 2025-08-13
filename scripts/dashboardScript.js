@@ -1,4 +1,4 @@
-const API_KEY = '$2a$10$oiOZ2p1JqErlZWeIJmDn1uhv/alUfND8CQK2e4m5/e7GIXsC2Em7y'; // Replace this with your actual key
+const API_KEY = '$2a$10$oiOZ2p1JqErlZWeIJmDn1uhv/alUfND8CQK2e4m5/e7GIXsC2Em7y'; //X-master key from json bin
 const BIN_ID = localStorage.getItem("binId");
 if (!BIN_ID) {
   alert("Missing bin ID. Please log in again.");
