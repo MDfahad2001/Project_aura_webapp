@@ -34,26 +34,24 @@ def update_json():
     # Look for existing user with same ID
     existing = next((u for u in users if u.get("user_id") == data["user_id"]), None)
 
+    # Determine flag value
+    flag_value = bool(data.get('flag', False))
+
     if existing:
         # Update existing user
         existing.update({
             "lux": data['lux'],
-            "cct": data['cct']
+            "cct": data['cct'],
+            "flag": flag_value
         })
-        if data.get('flag') is True:
-            existing["flag"] = True
-        else:
-            existing.pop("flag", None)
     else:
         # Add new user
-        new_user = {
+        users.append({
             "user_id": data["user_id"],
             "lux": data["lux"],
-            "cct": data["cct"]
-        }
-        if data.get('flag') is True:
-            new_user["flag"] = True
-        users.append(new_user)
+            "cct": data["cct"],
+            "flag": flag_value
+        })
 
     try:
         save_json(FILE_PATH, store)
