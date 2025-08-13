@@ -7,26 +7,15 @@ if (!BIN_ID) {
 
 const UPDATER_URL = 'http://localhost:5001/update'; // your Flask updater
 
-function isDynamicSelected() {
-  // Try select#mode first
-  const sel = document.getElementById('mode');
-  if (sel) return sel.value === 'dynamic';
-
-  // Fallback to checkbox#dynamicOption
-  const chk = document.getElementById('dynamicOption');
-  if (chk) return !!chk.checked;
-
-  // Default if neither input exists
-  return false;
-}
 
 function saveChanges() {
-  // base values
-  const values = {
+  const dynamicFlag = localStorage.getItem('dynamicFlag') === 'true';
+
+  const payload = {
     lux: Number(document.getElementById('lux').value),
     cct: Number(document.getElementById('cct').value),
-    user_id: localStorage.getItem("userId"),
-    flag:isDynamicSelected(),
+    user_id: localStorage.getItem('userId'),
+    flag: dynamicFlag   // <-- comes from options page
   };
 
 
