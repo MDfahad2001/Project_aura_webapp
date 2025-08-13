@@ -25,13 +25,10 @@ function saveChanges() {
   const values = {
     lux: Number(document.getElementById('lux').value),
     cct: Number(document.getElementById('cct').value),
-    user_id: localStorage.getItem("userId")
+    user_id: localStorage.getItem("userId"),
+    flag:isDynamicSelected(),
   };
 
-  // ✅ include flag ONLY when Dynamic is selected
-  if (isDynamicSelected()) {
-    values.flag = true;
-  }
 
   // --- 1) Download locally ---
   const jsonData = JSON.stringify(values, null, 2);
