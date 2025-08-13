@@ -5,22 +5,38 @@ if (!BIN_ID) {
   throw new Error("Missing BIN_ID");
 }
 
-// 👉 change if your updater is on a different host/port
-const UPDATER_URL = 'http://localhost:5001/update';
+const UPDATER_URL = 'http://localhost:5001/update'; // your Flask updater
+
+function isDynamicSelected() {
+  // Try select#mode first
+  const sel = document.getElementById('mode');
+  if (sel) return sel.value === 'dynamic';
+
+  // Fallback to checkbox#dynamicOption
+  const chk = document.getElementById('dynamicOption');
+  if (chk) return !!chk.checked;
+
+  // Default if neither input exists
+  return false;
+}
 
 function saveChanges() {
+  // base values
   const values = {
-    // send numbers for lux/cct
     lux: Number(document.getElementById('lux').value),
     cct: Number(document.getElementById('cct').value),
     user_id: localStorage.getItem("userId")
   };
 
-  // --- 1) Download locally (unchanged) ---
+  // ✅ include flag ONLY when Dynamic is selected
+  if (isDynamicSelected()) {
+    values.flag = true;
+  }
+
+  // --- 1) Download locally ---
   const jsonData = JSON.stringify(values, null, 2);
   const blob = new Blob([jsonData], { type: 'application/json' });
   const url = URL.createObjectURL(blob);
-
   const link = document.createElement('a');
   link.href = url;
   link.download = 'aura_values.json';
@@ -29,7 +45,7 @@ function saveChanges() {
   document.body.removeChild(link);
   URL.revokeObjectURL(url);
 
-  // --- 2a) Save to your Linux file via Flask updater ---
+  // --- 2a) Save to Linux file via Flask updater ---
   const updaterPromise = fetch(UPDATER_URL, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -39,7 +55,7 @@ function saveChanges() {
     return res.json();
   });
 
-  // --- 2b) Upload to JSONBin.io (existing) ---
+  // --- 2b) Upload to JSONBin.io ---
   const cloudPromise = fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}`, {
     method: 'PUT',
     headers: {
@@ -52,27 +68,13 @@ function saveChanges() {
     return res.json();
   });
 
-  // Run both network ops in parallel and report results
-  Promise.allSettled([updaterPromise, cloudPromise]).then(results => {
-    const [localRes, cloudRes] = results;
-
+  Promise.allSettled([updaterPromise, cloudPromise]).then(([localRes, cloudRes]) => {
     const localOK = localRes.status === 'fulfilled';
     const cloudOK = cloudRes.status === 'fulfilled';
 
-    if (localOK && cloudOK) {
-      alert('Saved locally (Linux file) and to cloud (JSONBin).');
-    } else if (localOK && !cloudOK) {
-      console.error('JSONBin error:', cloudRes.reason);
-      alert('Saved to Linux file, but cloud upload failed.');
-    } else if (!localOK && cloudOK) {
-      console.error('Updater error:', localRes.reason);
-      alert('Saved to cloud, but Linux file update failed.');
-    } else {
-      console.error('Both failed:', { local: localRes.reason, cloud: cloudRes.reason });
-      alert('Both local and cloud saves failed.');
-    }
-  }).catch(err => {
-    console.error(err);
-    alert('Unexpected error after saving.');
-  });
+    if (localOK && cloudOK)      alert('Saved locally and to cloud.');
+    else if (localOK)            alert('Saved locally; cloud failed.');
+    else if (cloudOK)            alert('Saved to cloud; local failed.');
+    else                         alert('Both local and cloud saves failed.');
+  }).catch(() => alert('Unexpected error after saving.'));
 }

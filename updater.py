@@ -2,17 +2,19 @@ from flask import Flask, request, jsonify
 import os, json
 
 app = Flask(__name__)
-
-FILE_PATH = "/home/user/data.json"  # change to your existing file path
+FILE_PATH = "/home/user/data.json"  # your JSON file
 
 def load_json(path):
     if not os.path.exists(path):
-        return {}
+        return {"users": []}
     try:
         with open(path, 'r') as f:
-            return json.load(f)
+            data = json.load(f)
+            if "users" not in data:
+                data["users"] = []
+            return data
     except:
-        return {}
+        return {"users": []}
 
 def save_json(path, obj):
     tmp = path + '.tmp'
@@ -26,18 +28,38 @@ def update_json():
     if 'lux' not in data or 'cct' not in data or 'user_id' not in data:
         return jsonify({"error": "Missing lux, cct, or user_id"}), 400
 
-    current = load_json(FILE_PATH)
-    current.update({
-        "lux": data['lux'],
-        "cct": data['cct'],
-        "user_id": data['user_id']
-    })
+    store = load_json(FILE_PATH)
+    users = store["users"]
+
+    # Look for existing user with same ID
+    existing = next((u for u in users if u.get("user_id") == data["user_id"]), None)
+
+    if existing:
+        # Update existing user
+        existing.update({
+            "lux": data['lux'],
+            "cct": data['cct']
+        })
+        if data.get('flag') is True:
+            existing["flag"] = True
+        else:
+            existing.pop("flag", None)
+    else:
+        # Add new user
+        new_user = {
+            "user_id": data["user_id"],
+            "lux": data["lux"],
+            "cct": data["cct"]
+        }
+        if data.get('flag') is True:
+            new_user["flag"] = True
+        users.append(new_user)
 
     try:
-        save_json(FILE_PATH, current)
-        return jsonify({"status": "OK", "saved": current})
+        save_json(FILE_PATH, store)
+        return jsonify({"status": "OK", "saved": store})
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5001, debug=True)  # Runs on different port
+    app.run(host='0.0.0.0', port=5001, debug=True)
