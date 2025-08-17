@@ -5,8 +5,6 @@ if (!BIN_ID) {
   throw new Error("Missing BIN_ID");
 }
 
-const UPDATER_URL = 'http://localhost:5001/update'; // your Flask updater
-
 
 function saveChanges() {
   const dynamicFlag = localStorage.getItem('dynamicFlag') === 'true';
@@ -20,7 +18,7 @@ function saveChanges() {
 
 
   // --- 1) Download locally ---
-  const jsonData = JSON.stringify(values, null, 2);
+  const jsonData = JSON.stringify(payload, null, 2);
   const blob = new Blob([jsonData], { type: 'application/json' });
   const url = URL.createObjectURL(blob);
   const link = document.createElement('a');
@@ -31,15 +29,6 @@ function saveChanges() {
   document.body.removeChild(link);
   URL.revokeObjectURL(url);
 
-  // --- 2a) Save to Linux file via Flask updater ---
-  const updaterPromise = fetch(UPDATER_URL, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(values)
-  }).then(res => {
-    if (!res.ok) throw new Error('Local updater failed');
-    return res.json();
-  });
 
   // --- 2b) Upload to JSONBin.io ---
   const cloudPromise = fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}`, {
@@ -54,7 +43,7 @@ function saveChanges() {
     return res.json();
   });
 
-  Promise.allSettled([updaterPromise, cloudPromise]).then(([localRes, cloudRes]) => {
+  Promise.allSettled([ cloudPromise]).then(([localRes]) => {
     const localOK = localRes.status === 'fulfilled';
     const cloudOK = cloudRes.status === 'fulfilled';
 

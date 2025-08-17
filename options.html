@@ -6,22 +6,6 @@
   <link rel="stylesheet" href="CSS/options.css">
 </head>
 
-<script>
-  const key = 'dynamicFlag';
-
-  // Restore saved state on load
-  document.addEventListener('DOMContentLoaded', () => {
-    const chk = document.getElementById('dynamicOption');
-    const saved = localStorage.getItem(key);
-    if (saved !== null) {
-      chk.checked = (saved === 'true');
-    }
-    // keep it in localStorage whenever user changes it
-    chk.addEventListener('change', () => {
-      localStorage.setItem(key, chk.checked ? 'true' : 'false');
-    });
-  });
-</script>
 
 <body>
   <h1>Select Mode</h1>
@@ -33,7 +17,7 @@
       <input type="checkbox" id="dynamicOption">
       Dynamic
     </label>
-    <button class="option-btn" onclick="location.href='http://10.0.0.178/#Colors'">
+    <button class="option-btn" onclick="location.href='http://10.82.82.44/#Colors'">
       Change Light Dynamically
     </button>
   </div>
